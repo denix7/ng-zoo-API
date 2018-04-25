@@ -1,7 +1,7 @@
 //representa el esquema que tendra cada documento
 'use strict'//para tener las versiones mas modernas de js
 
-var mongoose = require('mogoose');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = Schema({//datos que representan una entidad de la BD
