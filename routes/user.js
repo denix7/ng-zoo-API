@@ -8,7 +8,8 @@ var api = express.Router();
 var md_auth = require('../middlewares/authenticated'); 
 
 api.get('/pruebas-del-controlador', md_auth.ensureAuth, UserController.pruebas);
-api.post('/register', UserController.saveUser);
-api.post('/login', UserController.login)
+api.post('/register', md_auth.ensureAuth, UserController.saveUser);
+api.post('/login', md_auth.ensureAuth, UserController.login);
+api.put('/update-user/:id', md_auth.ensureAuth, UserController.updateUser);
 
 module.exports = api;

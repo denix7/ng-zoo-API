@@ -101,8 +101,31 @@ function login(req, res){
     
 }
 
+function updateUser(req, res){
+    var userId = req.params.id;//id del documento a actualizar
+    var update = req.body;//objeto con los datos a actualizar
+
+    if(userId != req.user.sub){
+        return res.status(500).send({message: 'No tienes permiso para actualizar el usuario'});
+    }
+
+    User.findByIdAndUpdate(userId, update, {new:true}, (err, userUpdated)=>{
+        if(err)
+            res.status(500).send({message: 'Erro al actualizar usuario'});
+        else    
+            {
+                if(!userUpdated)
+                    res.status(404).send({message: 'No se ha podido actualizar el usuario'});
+                else    
+                    res.status(200).send({user: userUpdated});    
+            }    
+    });
+
+}
+
 module.exports = {
     pruebas,
     saveUser,
-    login
+    login,
+    updateUser
 };
