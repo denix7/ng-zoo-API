@@ -2,6 +2,7 @@
 //modulos
 var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
+var path = require('path');
 
 //modelos internos
 var User = require('../models/user');
@@ -168,10 +169,24 @@ function uploadImage(req, res){//subir imagen de usuario
         res.status(200).send({message: 'No se han subido archivos'});
 }
 
+function getImageFile(req, res){
+    var imageFile = req.params.imageFile;//nombre del fichero que nos llega
+    var path_file = './uploads/users/'+imageFile;//ruta a nivel de carpeta que tiene la ruta
+
+    fs.exists(path_file, function(exists){
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(404).send({message: 'La imagen no existe'});
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
     updateUser,
-    uploadImage
+    uploadImage,
+    getImageFile
 };
