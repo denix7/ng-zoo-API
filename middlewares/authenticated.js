@@ -26,4 +26,4 @@ exports.ensureAuth = function(req, res, next){//cuando acabe el middleware next 
     req.user = payload;
 
     next();
-}
+};

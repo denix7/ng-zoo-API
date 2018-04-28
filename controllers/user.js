@@ -1,6 +1,7 @@
 'use strict'
 //modulos
 var bcrypt = require('bcrypt-nodejs');
+var fs = require('fs');
 
 //modelos internos
 var User = require('../models/user');
@@ -123,9 +124,54 @@ function updateUser(req, res){
 
 }
 
+function uploadImage(req, res){//subir imagen de usuario
+    var userId = req.params.id;
+    var file_name = 'No subido...';
+
+    if(req.files){
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext=='jpg' || file_ext=='jpeg' || file_ext=='gif'){
+            if(userId != req.user.sub){
+                res.status(500).send({message: 'No tienes permiso para actualizar'});
+        }
+        User.findByIdAndUpdate(userId, {image: file_name}, {new: true}, (err, userUpdated)=>{
+            if(err){
+                res.status(500).send({message: 'Error al acutualizar usario'})
+            }else{
+                if(!userUpdated){
+                    res.status(404).send({message: 'No se ha podido actualizar el usuario'});
+                }else{
+                    res.status(200).send({user: userUpdated, image: file_name});
+                }
+            }
+        });
+        }
+        else{
+            fs.unlink(file_path, (err)=>{//borra la imagen dado su ubicacion
+                if(err){
+                    res.status(200).send({message: 'La extension no es valida y fichero no borrado'});
+                }else{
+                    res.status(200).send({message: 'La extension no es valida'});
+                }
+            })
+
+            res.status(200).send({message: 'La extension no es valida'});
+        }
+    }
+    else
+        res.status(200).send({message: 'No se han subido archivos'});
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
-    updateUser
+    updateUser,
+    uploadImage
 };

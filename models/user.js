@@ -9,6 +9,7 @@ var UserSchema = Schema({//datos que representan una entidad de la BD
     surname: String,
     email: String,
     password: String,
+    image: String,
     rol: String
 });
 
