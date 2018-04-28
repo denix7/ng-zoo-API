@@ -10,7 +10,7 @@ var UserSchema = Schema({//datos que representan una entidad de la BD
     email: String,
     password: String,
     image: String,
-    rol: String
+    role: String
 });
 
 module.exports = mongoose.model('User', UserSchema)//exportamos entidad que representa a user

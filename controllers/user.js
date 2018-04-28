@@ -2,7 +2,7 @@
 //modulos
 var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
-var path = require('path');
+var path = require('path');//accede a rutas de sistema de archivos
 
 //modelos internos
 var User = require('../models/user');
@@ -182,11 +182,25 @@ function getImageFile(req, res){
     });
 }
 
+function getKeepers(req, res){
+    User.find({role: 'ROLE_ADMIN'}).exec((err, users)=>{
+        if(err){
+            res.status(500).send({message: 'error en la peticion'});
+        }else{
+            if(!users)
+                res.status(404).send({message: 'no hay cuidadores'}); 
+            else    
+                res.status(200).send({users});       
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
     updateUser,
     uploadImage,
-    getImageFile
+    getImageFile,
+    getKeepers
 };
