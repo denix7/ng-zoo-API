@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var AnimalSchema = Schema({
     name: String,
     description: String,
-    year: number,
+    year: String,
     image: String,
     user: {type: Schema.ObjectId, ref: 'User'}
 });
