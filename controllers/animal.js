@@ -46,7 +46,21 @@ function saveAnimal(req, res){
     }
 }
 
+function getAnimals(req, res){
+    Animal.find({}).populate({path: 'users'}).exec((err, animales)=>{//populate muestra el id del usuario que guardo el animal
+        if(err)
+            res.status(500).send({message: 'Error en la peticion'})
+        else{
+            if(!animales)
+                res.status(404).send({message: 'No existen animals'})
+            else    
+                res.status(200).send({animales})    
+        }    
+    })
+}
+
 module.exports = {
     pruebas,
-    saveAnimal
+    saveAnimal,
+    getAnimals
 }
