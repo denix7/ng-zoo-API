@@ -59,8 +59,28 @@ function getAnimals(req, res){
     })
 }
 
+function getAnimal(req, res) {
+    var animalId = req.params.id;
+
+    if(animalId == null)
+        return res.status(404).send({message: 'El animal no exite'});
+    
+    Animal.findById(animalId).populate({path: 'user', select: ['image', 'surname', 'name']}).exec((err, animalStored) => {
+        if(err) {
+            res.status(500).send({message: 'Error en la peticion'});
+        }
+        else if(!animalStored) {
+            res.status(404).send({message: 'No se ha encontrado el animal'})
+        }
+        else {
+            res.status(200).send({animalStored});
+        }
+    }); 
+}
+
 module.exports = {
     pruebas,
     saveAnimal,
-    getAnimals
+    getAnimals,
+    getAnimal
 }
