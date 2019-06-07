@@ -8,7 +8,7 @@ var api = express.Router();
 var md_auth = require('../middlewares/authenticated'); 
 
 var multipart = require('connect-multiparty');//permite manipular files
-var md_upload = multipart({uploadDir: '../uploads/users'});
+var md_upload = multipart({uploadDir: './uploads/users'});
 
 api.get('/pruebas-del-controlador', md_auth.ensureAuth, UserController.pruebas);
 api.post('/register', UserController.saveUser);

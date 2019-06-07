@@ -161,8 +161,6 @@ function uploadImage(req, res){//subir imagen de usuario
                     res.status(200).send({message: 'La extension no es valida'});
                 }
             })
-
-            res.status(200).send({message: 'La extension no es valida'});
         }
     }
     else

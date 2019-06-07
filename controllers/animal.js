@@ -98,10 +98,52 @@ function updateAnimal (req, res) {
     })    
 }
 
+function uploadImageAnimal(req, res) {
+    var animalId = req.params.id;
+    var file_name = 'No subido...';
+
+    if(req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+            Animal.findByIdAndUpdate(animalId, {image: file_name}, {new:true}, (err, animalUpdated) => {
+                if(err) {
+                    res.status(500).send({message: 'Error en la peticion'});
+                }
+                else if(!animalUpdated) {
+                    res.status(404).send({message: 'No se ha podido actualizar el animal'});
+                }
+                else {
+                    res.status(200).send({animal: animalUpdated, image: file_name});
+                }
+            })
+        }
+        else {
+            fs.unlink(file_path, (err) => {
+                if(err) {
+                    res.status(200).send({message: 'La extension no es valida'});
+                }
+                else{
+                    res.status(200).send({message: 'La extension no es valida'});
+                }
+            })
+        }
+    }
+    else {
+        res.status(200).send({message: 'No se han subido archivos'});
+    } 
+}
+
 module.exports = {
     pruebas,
     saveAnimal,
     getAnimals,
     getAnimal,
-    updateAnimal
+    updateAnimal,
+    uploadImageAnimal
 }
