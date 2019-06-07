@@ -12,6 +12,7 @@ var md_upload = multipart({uploadDir: '../uploads/animals'});//creamos el folder
 api.get('/animalTest', md_auth.ensureAuth, animalController.pruebas);
 api.post('/save-animal', md_auth.ensureAuth, animalController.saveAnimal);
 api.get('/animals', animalController.getAnimals);
-api.get('/animal/:id', animalController.getAnimal)
+api.get('/animal/:id', animalController.getAnimal);
+api.put('/animal/:id', animalController.updateAnimal);
 
 module.exports = api;
