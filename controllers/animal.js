@@ -139,11 +139,25 @@ function uploadImageAnimal(req, res) {
     } 
 }
 
+function getImageAnimal(req, res) {
+    var imageFile = req.params.imageFile;
+    var path_file = './uploads/animals/'+imageFile;
+
+    fs.exists(path_file, function(exists){
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(404).send({message: 'La imagen no existe'});
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveAnimal,
     getAnimals,
     getAnimal,
     updateAnimal,
-    uploadImageAnimal
+    uploadImageAnimal,
+    getImageAnimal
 }
