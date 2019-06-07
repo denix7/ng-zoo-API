@@ -16,5 +16,6 @@ api.get('/animal/:id', animalController.getAnimal);
 api.put('/animal/:id', animalController.updateAnimal);
 api.post('/upload-image-animal/:id', md_upload, animalController.uploadImageAnimal);
 api.get('/image-animal/:imageFile', animalController.getImageAnimal);
+api.delete('/animal/:id', animalController.deleteAnimal);
 
 module.exports = api;
